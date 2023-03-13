@@ -1,4 +1,7 @@
-﻿using Northwin.Business.Abstract;
+﻿using FluentValidation;
+using Northwin.Business.Abstract;
+using Northwin.Business.Utilities;
+using Northwin.Business.ValidationRules.FluentValidation;
 using Northwind.DataAccess.Abstract;
 using Northwind.DataAccess.Concrete;
 using Northwind.DataAccess.Concrete.EntityFramework;
@@ -6,6 +9,7 @@ using Northwind.Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
@@ -25,6 +29,7 @@ namespace Northwin.Business.Concrete
 
         public void Add(Product product)
         {
+            ValidationTool.Validate(new ProductValidator(),product);
             _productDal.Add(product);
         }
 
@@ -59,6 +64,7 @@ namespace Northwin.Business.Concrete
 
         public void Update(Product product)
         {
+            ValidationTool.Validate(new ProductValidator(), product);
             _productDal.Update(product);
         }
     }
